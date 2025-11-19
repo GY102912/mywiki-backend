@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: community
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USER_NAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          batch_size: 100
+          order_inserts: true
+          order_updates: true
+
+  output:
+    ansi:
+      enabled: always
+
+app:
+  image:
+    base-url: http://localhost:8080
+
+springdoc:
+  override-with-generic-response: false
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG           # API (Controller) 요청/응답 로그
+    org.hibernate.SQL: DEBUG                 # 실행되는 SQL 쿼리
+    org.hibernate.orm.jdbc.bind: OFF       # 쿼리 파라미터 (Hibernate 6.x)
+    org.hibernate.type.descriptor.sql.BasicBinder: OFF  # (Hibernate 5.x 호환)
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    com.zaxxer.hikari: WARN # 커넥션 풀(HikariCP) 로그 줄이기
+    com.mysql.cj.jdbc: WARN # MySQL 드라이버 로그 비활성화
