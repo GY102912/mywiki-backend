@@ -1,6 +1,5 @@
 package com.jian.community.application.service;
 
-import com.jian.community.application.util.PasswordEncoder;
 import com.jian.community.domain.event.UserDeleteEvent;
 import com.jian.community.global.exception.ErrorMessage;
 import com.jian.community.application.exception.InvalidCredentialsException;
@@ -11,6 +10,7 @@ import com.jian.community.presentation.dto.*;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

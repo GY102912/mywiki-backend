@@ -2,13 +2,13 @@ package com.jian.community.application.service;
 
 import com.jian.community.application.exception.InvalidCredentialsException;
 import com.jian.community.application.exception.ResourceNotFoundException;
-import com.jian.community.application.util.PasswordEncoder;
 import com.jian.community.domain.model.User;
 import com.jian.community.domain.repository.crud.UserRepository;
 import com.jian.community.global.exception.ErrorMessage;
 import com.jian.community.global.provider.JwtTokenProvider;
 import com.jian.community.presentation.dto.TokensResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
