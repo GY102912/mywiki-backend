@@ -31,6 +31,9 @@ app:
   image:
     base-url: http://localhost:8080
 
+jwt:
+  secret: ${JWT_SECRET}
+
 springdoc:
   override-with-generic-response: false
 
