@@ -14,26 +14,15 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
-    private final ApplicationEventPublisher eventPublisher;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationEventPublisher eventPublisher;
 
-    @Transactional(readOnly = true)
-    public Long authenticate(String email, String password) {
-        Optional<User> user = userRepository.findByEmailAndIsDeletedFalse(email);
 
-        if (user.isEmpty() || !passwordEncoder.matches(password, user.get().getPassword())) {
-            throw new InvalidCredentialsException();
-        }
-
-        return user.get().getId();
-    }
 
     @Transactional
     public void createUser(CreateUserRequest request) {

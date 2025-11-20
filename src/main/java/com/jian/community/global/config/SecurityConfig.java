@@ -2,7 +2,6 @@ package com.jian.community.global.config;
 
 import com.jian.community.global.filter.JwtAuthenticationFilter;
 import com.jian.community.global.provider.JwtAuthenticationProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +28,6 @@ public class SecurityConfig {
             JwtAuthenticationProvider jwtAuthenticationProvider
     ) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm ->

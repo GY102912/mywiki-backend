@@ -25,7 +25,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return String.valueOf(user.getId());
     }
 
     // 계정 활성화 여부

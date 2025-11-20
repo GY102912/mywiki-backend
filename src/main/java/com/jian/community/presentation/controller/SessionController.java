@@ -1,8 +1,12 @@
 package com.jian.community.presentation.controller;
 
+import com.jian.community.application.service.AuthenticationService;
 import com.jian.community.application.service.SessionManager;
 import com.jian.community.application.service.UserService;
 import com.jian.community.presentation.dto.CreateSessionRequest;
+import com.jian.community.presentation.dto.LoginResponse;
+import com.jian.community.presentation.dto.TokensResponse;
+import com.jian.community.presentation.util.RefreshTokenCookieWriter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -17,12 +21,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Session", description = "세션 기반 인증 관련 API")
 @RestController
-@RequestMapping("/sessions")
+@RequestMapping("/tokens")
 @AllArgsConstructor
 public class SessionController {
 
-    private final UserService userService;
+    private final AuthenticationService authenticationService;
     private final SessionManager sessionManager;
+    private final RefreshTokenCookieWriter refreshTokenCookieWriter;
 
     @Operation(summary = "로그인")
     @ApiResponses(value = {
@@ -36,9 +41,10 @@ public class SessionController {
                                             """)))})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void logIn(@RequestBody CreateSessionRequest request, HttpServletResponse httpResponse) {
-        Long userId = userService.authenticate(request.email(), request.password());
-        sessionManager.createSession(userId, httpResponse);
+    public LoginResponse logIn(@RequestBody CreateSessionRequest request, HttpServletResponse httpResponse) {
+        TokensResponse tokens = authenticationService.authenticate(request.email(), request.password());
+        refreshTokenCookieWriter.writeCookie(tokens.refreshToken(), httpResponse);
+        return new LoginResponse(tokens.accessToken());
     }
 
     @Operation(summary = "로그아웃")

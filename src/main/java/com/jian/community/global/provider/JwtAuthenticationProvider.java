@@ -1,5 +1,6 @@
 package com.jian.community.global.provider;
 
+import com.jian.community.application.exception.InvalidCredentialsException;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,14 +25,14 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
         try {
             Claims claims = jwtTokenProvider.parseClaims(token);
-            String username = claims.getSubject();
-            CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+            Long userId = Long.parseLong(claims.getSubject());
+            CustomUserDetails userDetails = customUserDetailsService.loadUserByUserId(userId);
             Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
             return new JwtAuthenticationToken(userDetails, authorities);
 
         } catch (Exception e) {
-            throw new BadCredentialsException("Invalid token"); // TODO: 커스텀 에러
+            throw new InvalidCredentialsException(); // TODO: 세세한 에러 처리
         }
     }
 
