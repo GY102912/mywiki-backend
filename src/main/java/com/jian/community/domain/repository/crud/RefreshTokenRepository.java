@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface RefreshTokenRepository {
 
-    void save(String refreshToken, Long userId, long expireTimeMs);
+    void save(String refreshToken, Long userId, long expiresInMillis);
 
     Optional<Long> findUserIdByRefreshToken(String refreshToken);
 

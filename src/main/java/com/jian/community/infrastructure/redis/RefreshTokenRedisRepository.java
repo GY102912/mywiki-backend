@@ -16,10 +16,10 @@ public class RefreshTokenRedisRepository implements RefreshTokenRepository {
     private final RedisKeyManager redisKeyManager;
 
     @Override
-    public void save(String refreshToken, Long userId, long expireTimeMs) {
+    public void save(String refreshToken, Long userId, long expiresInMillis) {
         String key = redisKeyManager.getRefreshTokenKey(refreshToken);
         String value = String.valueOf(userId);
-        redisTemplate.opsForValue().set(key, value, expireTimeMs, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(key, value, expiresInMillis, TimeUnit.MILLISECONDS);
     }
 
     @Override

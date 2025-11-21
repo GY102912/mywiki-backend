@@ -16,9 +16,9 @@ public class AccessTokenBlacklistRedisRepository implements AccessTokenBlacklist
     private final RedisKeyManager redisKeyManager;
 
     @Override
-    public void blacklist(String accessToken, long expireTimeMs) {
+    public void blacklist(String accessToken, long expiresInMillis) {
         String key = redisKeyManager.getBlacklistKey(accessToken);
-        redisTemplate.opsForValue().set(key, accessToken, expireTimeMs, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(key, accessToken, expiresInMillis, TimeUnit.MILLISECONDS);
     }
 
     @Override

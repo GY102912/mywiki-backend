@@ -39,7 +39,7 @@ public class SecurityConfig {
 
         // 인가 설정
         http.authorizeHttpRequests(auth -> auth
-            .requestMatchers("/tokens/**").permitAll()
+            .requestMatchers("/token/**").permitAll()
             .anyRequest().authenticated());
 
         // 인증 설정
