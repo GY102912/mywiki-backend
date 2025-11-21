@@ -25,6 +25,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
         try {
             Claims claims = jwtTokenProvider.parseClaims(token);
+            // TODO: 토큰 유효성 검사
+
             Long userId = Long.parseLong(claims.getSubject());
             CustomUserDetails userDetails = customUserDetailsService.loadUserByUserId(userId);
             Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();

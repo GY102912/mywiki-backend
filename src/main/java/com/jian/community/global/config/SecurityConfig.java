@@ -1,5 +1,7 @@
 package com.jian.community.global.config;
 
+import com.jian.community.global.exception.CustomAccessDeniedHandler;
+import com.jian.community.global.exception.CustomAuthenticationEntryPoint;
 import com.jian.community.global.filter.JwtAuthenticationFilter;
 import com.jian.community.global.provider.JwtAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
@@ -25,23 +27,34 @@ public class SecurityConfig {
             HttpSecurity http,
             CorsFilter corsFilter,
             JwtAuthenticationFilter jwtAuthenticationFilter,
-            JwtAuthenticationProvider jwtAuthenticationProvider
+            JwtAuthenticationProvider jwtAuthenticationProvider,
+            CustomAuthenticationEntryPoint authenticationEntryPoint,
+            CustomAccessDeniedHandler accessDeniedHandler
     ) throws Exception {
-        return http
-                .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .sessionManagement(sm ->
-                        sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/sessions/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .authenticationProvider(jwtAuthenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsFilter, JwtAuthenticationFilter.class)
-                .build();
+        // 기본 설정
+        http.formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .sessionManagement(config ->
+                    config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        // 인가 설정
+        http.authorizeHttpRequests(auth -> auth
+            .requestMatchers("/tokens/**").permitAll()
+            .anyRequest().authenticated());
+
+        // 인증 설정
+        http.authenticationProvider(jwtAuthenticationProvider);
+
+        // 필터 설정
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(corsFilter, JwtAuthenticationFilter.class);
+
+        // 예외 처리 설정
+        http.exceptionHandling(config ->
+            config.authenticationEntryPoint(authenticationEntryPoint)
+                    .accessDeniedHandler(accessDeniedHandler));
+
+        return http.build();
     }
 
     @Bean

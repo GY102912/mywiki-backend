@@ -35,8 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticated);
         }
 
-        // TODO: 만료된
-
         filterChain.doFilter(request, response);
     }
 }
