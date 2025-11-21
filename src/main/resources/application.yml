@@ -6,9 +6,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USER_NAME}
-    password: ${DB_PASSWORD}
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USER_NAME}
+    password: ${MYSQL_PASSWORD}
 
   jpa:
     hibernate:
@@ -27,6 +27,11 @@ spring:
     ansi:
       enabled: always
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
 app:
   image:
     base-url: http://localhost:8080
@@ -42,11 +47,13 @@ springdoc:
 logging:
   level:
     root: INFO
-    org.springframework.web: DEBUG           # API (Controller) 요청/응답 로그
-    org.hibernate.SQL: DEBUG                 # 실행되는 SQL 쿼리
-    org.hibernate.orm.jdbc.bind: OFF       # 쿼리 파라미터 (Hibernate 6.x)
-    org.hibernate.type.descriptor.sql.BasicBinder: OFF  # (Hibernate 5.x 호환)
-    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+    org.springframework.web: DEBUG
     org.springframework.web.servlet.DispatcherServlet: DEBUG
-    com.zaxxer.hikari: WARN # 커넥션 풀(HikariCP) 로그 줄이기
-    com.mysql.cj.jdbc: WARN # MySQL 드라이버 로그 비활성화
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: INFO
+
+    org.hibernate.SQL: INFO
+    org.hibernate.orm.jdbc.bind: OFF
+    org.hibernate.type.descriptor.sql.BasicBinder: OFF
+
+    com.zaxxer.hikari: WARN
+    com.mysql.cj.jdbc: WARN
