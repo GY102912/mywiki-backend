@@ -26,8 +26,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         jsonResponseBodyWriter.write(response, new ErrorResponse(
-                ErrorCode.INVALID_CREDENTIALS,
-                ErrorMessage.INVALID_CREDENTIALS
+                ErrorCode.AUTHENTICATION_REQUIRED,
+                ErrorMessage.INVALID_TOKEN
         ));
     }
 }

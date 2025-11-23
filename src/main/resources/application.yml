@@ -54,7 +54,7 @@ logging:
     org.springframework.web.servlet.DispatcherServlet: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: INFO
 
-    org.hibernate.SQL: INFO
+    org.hibernate.SQL: WARN
     org.hibernate.orm.jdbc.bind: OFF
     org.hibernate.type.descriptor.sql.BasicBinder: OFF
 

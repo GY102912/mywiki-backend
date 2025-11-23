@@ -2,7 +2,7 @@ package com.jian.community.global.exception;
 
 public class ErrorMessage {
 
-    public static final String INVALID_SESSION = "세션이 만료되었거나 존재하지 않습니다.";
+    public static final String INVALID_TOKEN = "토큰이 만료되었거나 존재하지 않습니다.";
     public static final String INVALID_CREDENTIALS = "인증 정보가 올바르지 않습니다.";
     public static final String EMAIL_ALREADY_EXISTS = "이미 사용 중인 이메일입니다.";
     public static final String NICKNAME_ALREADY_EXISTS = "이미 사용 중인 닉네임입니다.";

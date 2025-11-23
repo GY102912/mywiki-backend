@@ -18,9 +18,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Session", description = "세션 기반 인증 관련 API")
+@Tag(name = "Authentication", description = "JWT 기반 인증 관련 API")
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/tokens")
 @AllArgsConstructor
 public class AuthenticationController {
 
