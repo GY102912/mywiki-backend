@@ -41,7 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
+        String requestHttpMethod = request.getMethod();
         String requestURI = request.getRequestURI();
-        return ExcludeUrlPatternMatcher.matchesAny(requestURI);
+        return ExcludeUrlPatternMatcher.matchesAny(requestHttpMethod, requestURI);
     }
 }

@@ -41,7 +41,8 @@ public class SecurityConfig {
 
         // 인가 설정
         http.authorizeHttpRequests(auth -> auth
-            .requestMatchers(request -> ExcludeUrlPatternMatcher.matchesAny(request.getRequestURI())).permitAll()
+            .requestMatchers(request ->
+                    ExcludeUrlPatternMatcher.matchesAny(request.getMethod(), request.getRequestURI())).permitAll()
             .anyRequest().authenticated());
 
         // 인증 설정
