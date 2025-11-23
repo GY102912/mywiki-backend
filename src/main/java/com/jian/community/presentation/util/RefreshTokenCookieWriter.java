@@ -25,7 +25,7 @@ public class RefreshTokenCookieWriter {
         Cookie cookie = new Cookie(refreshTokenCookieName, value);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
-        cookie.setPath("/tokens");
+        cookie.setPath("/tokens/reissue");
         cookie.setMaxAge(maxAge);
 
         return cookie;
