@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class AccessTokenBlacklistRedisRepository implements AccessTokenBlacklistRepository {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
     private final RedisKeyManager redisKeyManager;
 
     @Override

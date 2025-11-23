@@ -4,6 +4,7 @@ import com.jian.community.global.exception.CustomAccessDeniedHandler;
 import com.jian.community.global.exception.CustomAuthenticationEntryPoint;
 import com.jian.community.global.filter.JwtAuthenticationFilter;
 import com.jian.community.global.provider.JwtAuthenticationProvider;
+import com.jian.community.global.util.ExcludeUrlPatternMatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,14 +33,15 @@ public class SecurityConfig {
             CustomAccessDeniedHandler accessDeniedHandler
     ) throws Exception {
         // 기본 설정
-        http.formLogin(AbstractHttpConfigurer::disable)
+        http.csrf(AbstractHttpConfigurer::disable)
+            .formLogin(AbstractHttpConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable)
             .sessionManagement(config ->
                     config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // 인가 설정
         http.authorizeHttpRequests(auth -> auth
-            .requestMatchers("/token/**").permitAll()
+            .requestMatchers(request -> ExcludeUrlPatternMatcher.matchesAny(request.getRequestURI())).permitAll()
             .anyRequest().authenticated());
 
         // 인증 설정

@@ -50,12 +50,6 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(ErrorCode.INVALID_CREDENTIALS, ErrorMessage.INVALID_CREDENTIALS);
     }
 
-    @ExceptionHandler(SessionExpiredException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorResponse handleSessionExpiredException() {
-        return new ErrorResponse(ErrorCode.AUTHENTICATION_REQUIRED, ErrorMessage.INVALID_SESSION);
-    }
-
     @ExceptionHandler(UnauthorizedWriterException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse handleForbiddenException(UnauthorizedWriterException e) {

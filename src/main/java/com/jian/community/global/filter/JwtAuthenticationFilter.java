@@ -2,6 +2,7 @@ package com.jian.community.global.filter;
 
 import com.jian.community.global.provider.JwtAuthenticationToken;
 import com.jian.community.global.provider.JwtTokenProvider;
+import com.jian.community.global.util.ExcludeUrlPatternMatcher;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,5 +37,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        return ExcludeUrlPatternMatcher.matchesAny(requestURI);
     }
 }
