@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Authentication", description = "JWT 기반 인증 관련 API")
@@ -49,8 +50,8 @@ public class AuthenticationController {
     @Operation(summary = "로그아웃")
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void logout(HttpServletRequest httpRequest){
-        String accessToken = jwtTokenProvider.resolveAccessToken(httpRequest);
+    public void logout(){
+        String accessToken = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         authenticationService.logout(accessToken);
     }
 
@@ -67,7 +68,7 @@ public class AuthenticationController {
     @PostMapping("/reissue")
     @ResponseStatus(HttpStatus.CREATED)
     public LoginResponse reissue(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
-        String accessToken = jwtTokenProvider.resolveAccessToken(httpRequest);
+        String accessToken = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         String refreshToken = jwtTokenProvider.resolveRefreshToken(httpRequest);
 
         TokensResponse reissued = authenticationService.reissue(accessToken, refreshToken);

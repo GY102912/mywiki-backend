@@ -13,19 +13,20 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     // 미인증 토큰
     public JwtAuthenticationToken(Object credentials) {
         super(null);
-        this.principal = null;
         this.credentials = credentials;
+        this.principal = null;
         setAuthenticated(false);
     }
 
     // 인증 토큰
     public JwtAuthenticationToken(
+            Object credentials,
             Object principal,
             Collection<? extends GrantedAuthority> authorities
     ) {
         super(authorities);
+        this.credentials = credentials;
         this.principal = principal;
-        this.credentials = null;
         setAuthenticated(true);
     }
 

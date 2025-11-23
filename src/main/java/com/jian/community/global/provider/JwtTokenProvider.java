@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -23,8 +24,8 @@ public class JwtTokenProvider {
     private final String AUTHORIZATION_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
 
-    @Value("${jwt.access-token.cookie-name}")
-    private String accessTokenCookieName;
+    @Value("${jwt.refresh-token.cookie-name}")
+    private String refreshTokenCookieName;
 
     @Value("${jwt.access-token.validity}")
     private long accessTokenValidityMs;
@@ -47,7 +48,7 @@ public class JwtTokenProvider {
         if (cookies == null) return null;
 
         for (Cookie cookie : cookies) {
-            if (StringUtils.hasText(cookie.getName()) && accessTokenCookieName.equals(cookie.getName())) {
+            if (StringUtils.hasText(cookie.getName()) && refreshTokenCookieName.equals(cookie.getName())) {
                 return cookie.getValue();
             }
         }

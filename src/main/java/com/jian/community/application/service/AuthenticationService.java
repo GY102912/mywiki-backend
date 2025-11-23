@@ -21,8 +21,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -61,12 +59,12 @@ public class AuthenticationService {
         if (accessToken == null || !jwtTokenProvider.validateAccessToken(accessToken)) return;
 
         Instant expiresAt = jwtTokenProvider.parseClaims(accessToken).getExpiration().toInstant();
-        long expiresInMillis = Duration.between(expiresAt, Instant.now()).toMillis();
+        long expiresInMillis = Duration.between(Instant.now(), expiresAt).toMillis();
 
         accessTokenBlacklistRepository.blacklist(accessToken, expiresInMillis);
     }
 
-    public TokensResponse reissue(String refreshToken, String accessToken) {
+    public TokensResponse reissue(String accessToken, String refreshToken) {
         if (!StringUtils.hasText(refreshToken)) {
             throw new InvalidCredentialsException();
         }

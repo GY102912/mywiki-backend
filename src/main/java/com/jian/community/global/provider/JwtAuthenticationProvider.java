@@ -28,7 +28,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             Long userId = Long.parseLong(claims.getSubject());
             Collection<? extends GrantedAuthority> userRoles = claims.get("roles", Collection.class);
 
-            return new JwtAuthenticationToken(userId, userRoles);
+            return new JwtAuthenticationToken(token, userId, userRoles);
 
         } catch (Exception e) {
             throw new InvalidCredentialsException(); // TODO: 세세한 에러 처리

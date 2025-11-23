@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class RefreshTokenCookieWriter {
 
+    @Value("${jwt.refresh-token.cookie-name}")
+    private String refreshTokenCookieName;
+
     @Value("${jwt.refresh-token.validity}")
     private long refreshTokenValidityMs;
 
@@ -19,10 +22,10 @@ public class RefreshTokenCookieWriter {
     private Cookie createCookie(String value) {
         int maxAge = (int) (refreshTokenValidityMs / 1000);
 
-        Cookie cookie = new Cookie("refresh_token", value);
+        Cookie cookie = new Cookie(refreshTokenCookieName, value);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
-        cookie.setPath("/token");
+        cookie.setPath("/tokens");
         cookie.setMaxAge(maxAge);
 
         return cookie;
