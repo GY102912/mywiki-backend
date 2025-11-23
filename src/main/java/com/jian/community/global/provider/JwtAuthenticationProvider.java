@@ -1,6 +1,7 @@
 package com.jian.community.global.provider;
 
 import com.jian.community.application.exception.InvalidCredentialsException;
+import com.jian.community.domain.repository.crud.AccessTokenBlacklistRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -16,14 +17,17 @@ import java.util.Collection;
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final AccessTokenBlacklistRepository accessTokenBlacklistRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String token = (String) authentication.getCredentials();
+        if (!jwtTokenProvider.validateAccessToken(token) || accessTokenBlacklistRepository.isBlacklisted(token)) {
+            throw new InvalidCredentialsException();
+        }
 
         try {
             Claims claims = jwtTokenProvider.parseClaims(token);
-            // TODO: 토큰 유효성 검사
 
             Long userId = Long.parseLong(claims.getSubject());
             Collection<? extends GrantedAuthority> userRoles = claims.get("roles", Collection.class);
@@ -31,7 +35,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             return new JwtAuthenticationToken(token, userId, userRoles);
 
         } catch (Exception e) {
-            throw new InvalidCredentialsException(); // TODO: 세세한 에러 처리
+            throw new InvalidCredentialsException();
         }
     }
 
