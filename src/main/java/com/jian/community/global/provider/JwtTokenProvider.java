@@ -7,11 +7,13 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Date;
 
 @Component
@@ -65,7 +67,7 @@ public class JwtTokenProvider {
         return expiration.isAfter(Instant.now());
     }
 
-    public String generateAccessToken(Long userId, Object roles, Instant issuedAt) {
+    public String generateAccessToken(Long userId, Collection<? extends GrantedAuthority> roles, Instant issuedAt) {
         Instant expiresAt = issuedAt.plusSeconds(accessTokenValidityMs);
         return Jwts.builder()
                 .setSubject(String.valueOf(userId))

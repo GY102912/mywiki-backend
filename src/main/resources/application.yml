@@ -49,12 +49,13 @@ springdoc:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
     org.springframework.web: DEBUG
     org.springframework.web.servlet.DispatcherServlet: DEBUG
-    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: INFO
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+    org.springframework.security: DEBUG
 
-    org.hibernate.SQL: WARN
+    org.hibernate.SQL: OFF
     org.hibernate.orm.jdbc.bind: OFF
     org.hibernate.type.descriptor.sql.BasicBinder: OFF
 

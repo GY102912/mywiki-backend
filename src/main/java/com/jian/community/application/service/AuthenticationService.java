@@ -11,6 +11,7 @@ import com.jian.community.global.provider.JwtTokenProvider;
 import com.jian.community.presentation.dto.TokensResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,8 @@ import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +47,7 @@ public class AuthenticationService {
         }
 
         Long userId = user.getId();
-        List<String> userRoles = List.of();
+        Collection<? extends GrantedAuthority> userRoles = Collections.emptyList();
         Instant issuedAt = Instant.now();
 
         String accessToken = jwtTokenProvider.generateAccessToken(userId, userRoles, issuedAt);
@@ -70,7 +73,7 @@ public class AuthenticationService {
 
         Long userId = refreshTokenRepository.findUserIdByRefreshToken(refreshToken)
                 .orElseThrow(InvalidCredentialsException::new);
-        Object userRoles = jwtTokenProvider.parseClaims(refreshToken).get("roles");
+        Collection<? extends GrantedAuthority> userRoles = jwtTokenProvider.parseClaims(refreshToken).get("roles", Collection.class);
         Instant issuedAt = Instant.now();
 
         String reissuedAccessToken = jwtTokenProvider.generateAccessToken(userId, userRoles, issuedAt);

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -57,7 +58,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.OK)
     public PostDetailResponse getPostDetail(
             @PathVariable Long postId,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         return postQueryService.getPostDetail(postId, userId);
     }
@@ -93,7 +94,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public PostIdResponse createPost(
             @Valid @RequestBody CreatePostRequest request,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         return postService.createPost(userId, request);
     }
@@ -138,7 +139,7 @@ public class PostController {
     public void updatePost(
             @PathVariable Long postId,
             @Valid @RequestBody UpdatePostRequest request,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         postService.updatePost(userId, postId, request);
     }
@@ -157,7 +158,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePost(
             @PathVariable Long postId,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         postService.deletePost(userId, postId);
     }
@@ -184,7 +185,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createPostLike(
             @PathVariable Long postId,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         postLikeService.createPostLike(postId, userId);
     }
@@ -203,7 +204,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePostLike(
             @PathVariable Long postId,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         postLikeService.deletePostLike(postId, userId);
     }

@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -44,7 +45,7 @@ public class CommentController {
     @ResponseStatus(HttpStatus.OK)
     public CursorResponse<CommentResponse> getComments(
             @PathVariable Long postId,
-            @RequestAttribute Long userId,
+            @AuthenticationPrincipal Long userId,
             @RequestParam(required = false) LocalDateTime cursor
     ) {
         return commentService.getComments(postId, userId, cursor);
@@ -65,7 +66,7 @@ public class CommentController {
     public CommentResponse creatComment(
             @PathVariable Long postId,
             @Valid @RequestBody CreateCommentRequest request,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         return commentService.creatComment(postId, userId, request);
     }
@@ -94,7 +95,7 @@ public class CommentController {
             @PathVariable Long postId,
             @PathVariable Long commentId,
             @Valid @RequestBody UpdateCommentRequest request,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         commentService.updateComment(postId, commentId, userId, request);
     }
@@ -122,7 +123,7 @@ public class CommentController {
     public void deleteComment(
             @PathVariable Long postId,
             @PathVariable Long commentId,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         commentService.deleteComment(postId, commentId, userId);
     }

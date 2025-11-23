@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "User", description = "사용자 관련 API")
@@ -73,7 +74,7 @@ public class UserController {
     @Operation(summary = "내 정보 조회", description = "로그인한 사용자의 정보를 조회합니다.")
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public UserInfoResponse getMyInfo(@RequestAttribute Long userId) {
+    public UserInfoResponse getMyInfo(@AuthenticationPrincipal Long userId) {
         return userService.getUserInfo(userId);
     }
 
@@ -100,7 +101,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserInfoResponse updateMyInfo(
             @Valid @RequestBody UpdateUserRequest request,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         return userService.updateUserInfo(userId, request);
     }
@@ -108,7 +109,7 @@ public class UserController {
     @Operation(summary = "회원 탈퇴", description = "로그인한 사용자의 회원 정보를 영구 삭제합니다.")
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteMyAccount(@RequestAttribute Long userId) {
+    public void deleteMyAccount(@AuthenticationPrincipal Long userId) {
         userService.deleteUser(userId);
     }
 
@@ -135,7 +136,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changeMyPassword(
             @Valid @RequestBody ChangePasswordRequest request,
-            @RequestAttribute Long userId
+            @AuthenticationPrincipal Long userId
     ) {
         userService.changePassword(userId, request);
     }

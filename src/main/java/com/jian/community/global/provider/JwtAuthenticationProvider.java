@@ -16,7 +16,6 @@ import java.util.Collection;
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -27,10 +26,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             // TODO: 토큰 유효성 검사
 
             Long userId = Long.parseLong(claims.getSubject());
-            CustomUserDetails userDetails = customUserDetailsService.loadUserByUserId(userId);
-            Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+            Collection<? extends GrantedAuthority> userRoles = claims.get("roles", Collection.class);
 
-            return new JwtAuthenticationToken(userDetails, authorities);
+            return new JwtAuthenticationToken(userId, userRoles);
 
         } catch (Exception e) {
             throw new InvalidCredentialsException(); // TODO: 세세한 에러 처리

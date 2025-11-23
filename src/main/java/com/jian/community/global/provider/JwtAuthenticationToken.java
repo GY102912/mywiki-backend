@@ -7,8 +7,8 @@ import java.util.Collection;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
-    final Object principal;
     Object credentials;
+    final Object principal;
 
     // 미인증 토큰
     public JwtAuthenticationToken(Object credentials) {
