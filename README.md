@@ -13,6 +13,9 @@
 - Rate Limiting으로 과도한 요청 혹은 공격으로부터 시스템 보호
 - 서버 로컬 디스크에 업로드된 파일을 링크 기반으로 조회 및 출력
 
+## 데모
+[![마이위키 데모 영상](http://img.youtube.com/vi/1n0Gt7677lM/0.jpg)](https://youtu.be/1n0Gt7677lM)
+
 ## 디렉토리 구조
 
 ```yaml
