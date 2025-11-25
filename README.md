@@ -13,15 +13,71 @@
 - Rate Limiting으로 과도한 요청 혹은 공격으로부터 시스템 보호
 - 서버 로컬 디스크에 업로드된 파일을 링크 기반으로 조회 및 출력
 
+## 디렉토리 구조
+
+```yaml
+application
+├── exception
+├── mapper
+├── service
+└── util
+domain
+├── converter
+├── dto
+├── event
+├── exception
+├── model
+└── repository
+global
+├── config
+├── exception
+├── filter
+├── provider
+└── util
+infrastructure
+├── config
+├── disk
+├── exception
+├── persistence
+└── redis
+presentation
+├── controller
+├── dto
+├── util
+└── validation
+```
+
 ## 로컬 실행 방법
 
-1. git clone
-2. 프로젝트 루트에 .env 파일 생성
-    1. MySQL 설치 후 스키마 생성하여 `MYSQL_URL`, `MYSQL_USER_NAME`, `MYSQL_PASSWORD`작성
-    2. Redis 설치 후 스키마 생성하여 `REDIS_HOST`, `REDIS_PORT` 작성
-    3. openssl rand -base64 32 명령어로 시크릿 키 생성하여 `JWT_SECRET` 작성
-3. MySQL, Redis 서버 실행
+1. 저장소 클론
+    
+    ```bash
+    git clone https://github.com/GY102912/mywiki-backend.git
+    cd mywiki-backend
+    ```
+    
+2. 프로젝트 루트에 .env 파일 작성
+    
+    ```
+    # MySQL
+    MYSQL_URL=jdbc:mysql://localhost:3306/your_schema?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    MYSQL_USER_NAME=your_user_name
+    MYSQL_PASSWORD=your_password
+    
+    # Redis
+    REDIS_HOST=localhost
+    REDIS_PORT=6379
+    
+    # JWT
+    JWT_SECRET=openssl rand -base64 32 명령어 결과값
+    ```
+    
+3. MySQL & Redis 실행
 4. CommunityApplication 실행
+    
+    ```bash
+    ./gradlew bootRun
+    ```
 
 ## 의존성
 
