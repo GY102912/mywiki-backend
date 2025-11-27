@@ -22,8 +22,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ApplicationEventPublisher eventPublisher;
 
-
-
     @Transactional
     public void createUser(CreateUserRequest request) {
         if (userRepository.existsByEmailAndIsDeletedFalse((request.email()))) {

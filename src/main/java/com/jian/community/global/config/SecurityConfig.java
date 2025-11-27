@@ -34,6 +34,7 @@ public class SecurityConfig {
     ) throws Exception {
         // 기본 설정
         http.csrf(AbstractHttpConfigurer::disable)
+            .securityContext(AbstractHttpConfigurer::disable)
             .formLogin(AbstractHttpConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable)
             .sessionManagement(config ->
@@ -43,7 +44,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
             .requestMatchers(request ->
                     ExcludeUrlPatternMatcher.matchesAny(request.getMethod(), request.getRequestURI())).permitAll()
-            .anyRequest().authenticated());
+            .anyRequest().hasAnyAuthority("ADMIN", "USER"));
 
         // 인증 설정
         http.authenticationProvider(jwtAuthenticationProvider);

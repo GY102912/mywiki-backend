@@ -11,7 +11,6 @@ import com.jian.community.global.provider.JwtTokenProvider;
 import com.jian.community.presentation.dto.TokensResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +18,6 @@ import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -45,10 +42,9 @@ public class AuthenticationService {
         }
 
         Long userId = user.getId();
-        Collection<? extends GrantedAuthority> userRoles = Collections.emptyList();
         Instant issuedAt = Instant.now();
 
-        String accessToken = jwtTokenProvider.generateAccessToken(userId, userRoles, issuedAt);
+        String accessToken = jwtTokenProvider.generateAccessToken(userId, issuedAt);
         String refreshToken = jwtTokenProvider.generateRefreshToken(userId, issuedAt);
         refreshTokenRepository.save(refreshToken, userId, refreshTokenValidityMs);
 
@@ -71,10 +67,9 @@ public class AuthenticationService {
 
         Long userId = refreshTokenRepository.findUserIdByRefreshToken(refreshToken)
                 .orElseThrow(InvalidCredentialsException::new);
-        Collection<? extends GrantedAuthority> userRoles = jwtTokenProvider.parseClaims(refreshToken).get("roles", Collection.class);
         Instant issuedAt = Instant.now();
 
-        String reissuedAccessToken = jwtTokenProvider.generateAccessToken(userId, userRoles, issuedAt);
+        String reissuedAccessToken = jwtTokenProvider.generateAccessToken(userId, issuedAt);
         String reissuedRefreshToken = jwtTokenProvider.generateRefreshToken(userId, issuedAt);
         refreshTokenRepository.save(reissuedRefreshToken, userId, refreshTokenValidityMs);
 

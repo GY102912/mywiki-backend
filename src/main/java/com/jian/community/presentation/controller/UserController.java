@@ -172,4 +172,6 @@ public class UserController {
     public AvailabilityResponse validateNickname(@Valid @ModelAttribute NicknameAvailabilityRequest request) {
         return userService.validateNickname(request.nickname());
     }
+
+
 }

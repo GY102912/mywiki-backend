@@ -25,6 +25,9 @@ public class User extends MinimalEntity {
     @Column(name = "profile_image_url", nullable = false)
     private String profileImageUrl;
 
+    @Column(name = "role", nullable = false)
+    private Role role;
+
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
@@ -34,6 +37,7 @@ public class User extends MinimalEntity {
         user.password = password;
         user.nickname = nickname;
         user.profileImageUrl = profileImageUrl;
+        user.role = Role.USER;
         return user;
     }
 

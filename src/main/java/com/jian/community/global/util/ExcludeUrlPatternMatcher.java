@@ -12,7 +12,12 @@ public final class ExcludeUrlPatternMatcher {
 
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
     private static final List<ExcludeUrlPattern> EXCLUDE_URL_PATTERNS = List.of(
+            new ExcludeUrlPattern(HttpMethod.OPTIONS, "/**"),
             new ExcludeUrlPattern(HttpMethod.POST, "/tokens"),
+            new ExcludeUrlPattern(HttpMethod.POST, "/users"),
+            new ExcludeUrlPattern(HttpMethod.GET, "/users/**/availability"),
+            new ExcludeUrlPattern(HttpMethod.POST, "/files/profile-images"),
+            new ExcludeUrlPattern(HttpMethod.GET, "/files/images/**"),
             new ExcludeUrlPattern(HttpMethod.GET, "/swagger-ui/**"),
             new ExcludeUrlPattern(HttpMethod.GET, "/v3/api-docs/**")
     );
