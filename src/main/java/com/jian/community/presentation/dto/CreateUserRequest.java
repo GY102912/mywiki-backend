@@ -24,7 +24,7 @@ public record CreateUserRequest(
         @NicknameFormat
         String nickname,
 
-        @Schema(example = "http://localhost:8080//files/images/79432acd-4ce7-4e4d-ab39-84da840218e1.png")
+        @Schema(example = "http://localhost:8080/files/images/79432acd-4ce7-4e4d-ab39-84da840218e1.png")
         @NotBlank(message = ValidationMessage.PROFILE_IMAGE_URL_REQUIRED)
         String profileImageUrl
 ) {

@@ -9,16 +9,16 @@ import java.util.List;
 
 public record CreatePostRequest(
 
-        @Schema(example = "댓글 제목")
+        @Schema(example = "게시글 제목")
         @NotBlank(message = ValidationMessage.POST_TITLE_REQUIRED)
         @Size(max = 26, message = ValidationMessage.INVALID_POST_TITLE)
         String title,
 
-        @Schema(example = "댓글 내용")
+        @Schema(example = "게시글 내용")
         @NotBlank(message = ValidationMessage.POST_CONTENT_REQUIRED)
         String content,
 
-        @Schema(example = "[http://localhost:8080//files/images/79432acd-4ce7-4e4d-ab39-84da840218e1.png]")
+        @Schema(example = "[http://localhost:8080/files/images/79432acd-4ce7-4e4d-ab39-84da840218e1.png]")
         List<String> postImageUrls
 ) {
 }
