@@ -60,7 +60,7 @@ public class AuthenticationService {
         accessTokenBlacklistRepository.blacklist(accessToken, expiresInMillis);
     }
 
-    public TokensResponse reissue(String accessToken, String refreshToken) {
+    public TokensResponse reissue(String refreshToken) {
         if (!StringUtils.hasText(refreshToken)) {
             throw new InvalidCredentialsException();
         }
@@ -73,7 +73,6 @@ public class AuthenticationService {
         String reissuedRefreshToken = jwtTokenProvider.generateRefreshToken(userId, issuedAt);
         refreshTokenRepository.save(reissuedRefreshToken, userId, refreshTokenValidityMs);
 
-        logout(accessToken); // 기존 액세스 토큰 블랙리스트
         refreshTokenRepository.delete(refreshToken); // 기존 리프레시 토큰 삭제
         return new TokensResponse(reissuedAccessToken, reissuedRefreshToken);
     }

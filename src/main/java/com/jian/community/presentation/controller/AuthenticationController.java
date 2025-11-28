@@ -68,10 +68,8 @@ public class AuthenticationController {
     @PostMapping("/reissue")
     @ResponseStatus(HttpStatus.CREATED)
     public LoginResponse reissue(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
-        String accessToken = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         String refreshToken = jwtTokenProvider.resolveRefreshToken(httpRequest);
-
-        TokensResponse reissued = authenticationService.reissue(accessToken, refreshToken);
+        TokensResponse reissued = authenticationService.reissue(refreshToken);
         refreshTokenCookieWriter.writeCookie(reissued.refreshToken(), httpResponse);
         return new LoginResponse(reissued.accessToken());
     }

@@ -50,22 +50,6 @@ springdoc:
 logging:
   level:
     root: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.web.servlet.DispatcherServlet: DEBUG
-    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
-    org.springframework.security: DEBUG
-
-    org.hibernate.SQL: OFF
-    org.hibernate.orm.jdbc.bind: OFF
-    org.hibernate.type.descriptor.sql.BasicBinder: OFF
-
+    javax.management.remote.rmi: WARN
+    sun.rmi.transport.tcp: WARN
     com.zaxxer.hikari: WARN
-    com.mysql.cj.jdbc: WARN
-
-    org.springframework.data.redis: DEBUG       # Spring Data Redis 동작 로그
-    org.springframework.data.redis.core: DEBUG
-    org.springframework.data.redis.connection: DEBUG
-
-    io.lettuce.core: DEBUG                     # Lettuce 클라이언트 전반
-    io.lettuce.core.protocol: DEBUG            # 프로토콜 단 로그
-    io.lettuce.core.RedisCommandExecutionException: DEBUG

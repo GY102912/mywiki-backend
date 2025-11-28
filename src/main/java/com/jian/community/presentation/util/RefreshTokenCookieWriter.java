@@ -1,8 +1,8 @@
 package com.jian.community.presentation.util;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,19 +15,19 @@ public class RefreshTokenCookieWriter {
     private long refreshTokenValidityMs;
 
     public void writeCookie(String value, HttpServletResponse response) {
-        Cookie cookie = createCookie(value);
-        response.addCookie(cookie);
+        ResponseCookie cookie = createCookie(value);
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
-    private Cookie createCookie(String value) {
+    private ResponseCookie createCookie(String value) {
         int maxAge = (int) (refreshTokenValidityMs / 1000);
 
-        Cookie cookie = new Cookie(refreshTokenCookieName, value);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(maxAge);
-
-        return cookie;
+        return ResponseCookie.from(refreshTokenCookieName, value)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .sameSite("None")
+                .maxAge(maxAge)
+                .build();
     }
 }
